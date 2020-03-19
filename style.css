@@ -3,11 +3,11 @@
 }
 
 body {
-  margin: 20%;
+  margin: 50px;
   box-sizing: border-box;
 }
 
 .canvas {
+  padding-left: 30%;
   display: block;
-  padding: 20%;
 }

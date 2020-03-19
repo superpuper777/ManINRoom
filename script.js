@@ -5,6 +5,12 @@ canvas.height = window.innerHeight;
 let xCoord = 210;
 let yCoord = 210;
 let cell = 60;
+
+let auto = false;
+let taskRunner;
+let defaultX = 3;
+let defaultY = 3;
+
 drawRoom();
 drawManUp();
 
@@ -110,10 +116,47 @@ function drawManDown() {
 
 }
 
+function autoGo() {
+  if (yCoord > 30 && xCoord !== 30 && yCoord !== 390 ||
+    xCoord == 390 && yCoord == 390) {
+    document.dispatchEvent(new KeyboardEvent('keydown', {
+      'key': 'ArrowUp',
+      'code': 'ArrowUp'
+    }));
+  } else if (yCoord == 30 && xCoord > 30) {
+    document.dispatchEvent(new KeyboardEvent('keydown', {
+      'key': 'ArrowLeft',
+      'code': 'ArrowLeft'
+    }));
+  } else if (xCoord <= 30 && yCoord < 390) {
+    document.dispatchEvent(new KeyboardEvent('keydown', {
+      'key': 'ArrowDown',
+      'code': 'ArrowDown'
+    }));
+  } else if (yCoord == 390 && xCoord < 390) {
+    document.dispatchEvent(new KeyboardEvent('keydown', {
+      'key': 'ArrowRight',
+      'code': 'ArrowRight'
+    }));
+  };
+};
+
+
+
+document.getElementById('autoPilot').addEventListener('click', function () {
+  auto = !auto;
+  if (auto) {
+    taskRunner = setInterval(autoGo, 1000);
+  } else {
+    clearInterval(taskRunner);
+  }
+});
+
 document.addEventListener('keydown', function (e) {
   if (e.code == 'ArrowUp') {
     if (yCoord > 60) {
       yCoord -= cell;
+      defaultY -= 1;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawManUp();
     } else if (yCoord < 60) {
@@ -124,6 +167,7 @@ document.addEventListener('keydown', function (e) {
   if (e.code == 'ArrowLeft') {
     if (xCoord > 60) {
       xCoord -= cell;
+      defaultX -= 1;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawManLeft();
     } else if (xCoord < 60) {
@@ -134,6 +178,7 @@ document.addEventListener('keydown', function (e) {
   if (e.code == 'ArrowRight') {
     if (xCoord < 380) {
       xCoord += cell;
+      defaultX += 1;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawManRight();
     } else if (xCoord > 380) {
@@ -144,6 +189,7 @@ document.addEventListener('keydown', function (e) {
   if (e.code == 'ArrowDown') {
     if (yCoord < 380) {
       yCoord += cell;
+      defaultY += 1;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       drawManDown();
     } else if (yCoord > 380) {
@@ -151,4 +197,6 @@ document.addEventListener('keydown', function (e) {
       drawManDown();
     }
   }
+  console.log('X = ' + xCoord);
+  console.log('Y = ' + yCoord);
 });
