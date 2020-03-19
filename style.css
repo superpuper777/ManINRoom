@@ -1,0 +1,13 @@
+* {
+  overflow: hidden;
+}
+
+body {
+  margin: 20%;
+  box-sizing: border-box;
+}
+
+.canvas {
+  display: block;
+  padding: 20%;
+}
